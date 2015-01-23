@@ -1,0 +1,51 @@
+{
+  "name": "famous-flex-tabbar",
+  "private": "true",
+  "version": "0.0.1",
+  "author": {
+    "name": "Hein Rutjes <hrutjes@gmail.com>"
+  },
+  "description": "TabBar widget demo for famo.us",
+  "keywords": [],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/IjzerenHein/famous-flex-tabbar/blob/master/LICENSE"
+    }
+  ],
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/IjzerenHein/famous-flex-tabbar/issues"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.7.0",
+    "expose-loader": "^0.5.3",
+    "famous": "^0.3.1",
+    "famous-flex": "latest",
+    "famous-lagometer": "0.0.2",
+    "famous-polyfills": "^0.2.2",
+    "fastclick": "^1.0.3",
+    "file-loader": "^0.6.1",
+    "glob": "^4.0.5",
+    "grunt": "latest",
+    "grunt-eslint": "latest",
+    "grunt-exec": "latest",
+    "grunt-ftp-deploy": "latest",
+    "grunt-jscs": "latest",
+    "html-loader": "^0.2.2",
+    "json-loader": "^0.5.1",
+    "less": "^1.7.4",
+    "less-loader": "^0.7.5",
+    "optimist": "^0.6.1",
+    "script-loader": "^0.6.0",
+    "style-loader": "^0.6.4",
+    "url-loader": "^0.5.5",
+    "webpack": "latest",
+    "webpack-cordova-plugin": "latest",
+    "webpack-dev-server": "latest"
+  },
+  "scripts": {}
+}

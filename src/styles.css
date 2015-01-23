@@ -1,0 +1,25 @@
+body, div {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+    /* prevent text selection */
+    -moz-user-select: -moz-none;
+   	-khtml-user-select: none;
+   	-webkit-user-select: none;
+   	-ms-user-select: none;
+   	user-select: none;
+}
+
+.header {
+  line-height: 60px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.tabbar-item {
+  text-align: center;
+  line-height: 60px;
+}
+
+.tabbar-selected-item {
+  border-bottom: 1px solid black;
+}
