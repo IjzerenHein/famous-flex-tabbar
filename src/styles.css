@@ -10,16 +10,18 @@ body, div {
 }
 
 .header {
-  line-height: 60px;
-  font-size: 30px;
+  line-height: 30px;
+  font-size: 14px;
   text-align: center;
+  color: #777777;
 }
 
 .tabbar-item {
   text-align: center;
-  line-height: 60px;
+  line-height: 50px;
+  white-space: nowrap;
 }
 
 .tabbar-selected-item {
-  border-bottom: 1px solid black;
+  border-bottom: 4px solid #1185c3;
 }
