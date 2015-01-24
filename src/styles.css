@@ -9,17 +9,32 @@ body, div {
    	user-select: none;
 }
 
+.famous-root {
+  background-color: #ECECEC;
+}
+
 .header {
   line-height: 30px;
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   color: #777777;
+  color: #AAAAAA;
+  padding-left: 10px;
+}
+
+.footer {
+  -border-bottom: 1px solid #DDDDDD;
+}
+
+.tabbar-background {
+  background-color: white;
 }
 
 .tabbar-item {
   text-align: center;
   line-height: 50px;
   white-space: nowrap;
+  color: black;
 }
 
 .tabbar-selected-item {
