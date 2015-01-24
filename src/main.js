@@ -20,6 +20,10 @@ define(function(require) {
     require('./index.html');
     //</webpack>
 
+    // Fast-click
+    var FastClick = require('fastclick/lib/fastclick');
+    FastClick.attach(document.body);
+
     // import dependencies
     var Engine = require('famous/core/Engine');
     var RenderNode = require('famous/core/RenderNode');
