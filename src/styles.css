@@ -10,7 +10,8 @@ body, div {
 }
 
 .famous-root {
-  background-color: #ECECEC;
+  -background-color: #ECECEC;
+  background-color: white;
 }
 
 .header {
@@ -26,10 +27,17 @@ body, div {
   -border-bottom: 1px solid #DDDDDD;
 }
 
+.ff-tabbar.item.small {
+  font-size: 12px;
+}
+.ff-tabbar.item .icon {
+  font-size: 24px;
+}
+
 
 /* tabbar white */
 .ff-tabbar.background.white {
-  background-color: white;
+  background-color: #ECECEC;
 }
 .ff-tabbar.item.white {
   color: black;
@@ -63,4 +71,20 @@ body, div {
 }
 .ff-tabbar.selectedItemOverlay.blue {
   border-bottom: 6px solid #1185c3;
+}
+
+
+/* tabbar orange */
+.ff-tabbar.background.orange {
+  background-color: #f5f5f5;
+}
+.ff-tabbar.item.orange {
+  color: #818181;
+}
+.ff-tabbar.item.orange.selected {
+  color: #f5f5f5;
+  background-color: #E14610;
+}
+.ff-tabbar.selectedItemOverlay.orange {
+  border-bottom: none;
 }

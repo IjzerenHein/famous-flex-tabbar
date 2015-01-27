@@ -14,9 +14,9 @@ var argv = require('optimist')
             .argv;
 
 var config = {
-  context: path.join(__dirname, 'src'),
-  entry: ['./main'],
-  output:{
+  context: __dirname,
+  entry: ['./src/main'],
+  output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: isDevServer() ? '/' : ''
@@ -25,27 +25,26 @@ var config = {
     publicPath: '/'
   },
   reload: isDevServer() ? 'localhost' : null,
-  module:{
-    loaders:[
+  module: {
+    loaders: [
       { test: /\.json$/,            loader: 'json-loader' },
       { test: /\.css$/,             loader: 'style-loader!css-loader' },
       { test: /\.less$/,            loader: 'style-loader!css-loader!less-loader' },
-      { test: /\.(png|jpg|gif)$/,   loader: 'url-loader?limit=5000&name=[path][name].[ext]&context=./src' },
-      { test: /\.eot$/,             loader: 'file-loader?name=[path][name].[ext]&context=./src' },
-      { test: /\.ttf$/,             loader: 'file-loader?name=[path][name].[ext]&context=./src' },
-      { test: /\.svg$/,             loader: 'file-loader?name=[path][name].[ext]&context=./src' },
-      { test: /\.woff$/,            loader: 'file-loader?name=[path][name].[ext]&context=./src' },
+      { test: /\.(png|jpg|gif)$/,   loader: 'url-loader?limit=5000&name=[path][name].[ext]&context=.' },
+      { test: /\.eot$/,             loader: 'file-loader?name=[path][name].[ext]&context=.' },
+      { test: /\.ttf$/,             loader: 'file-loader?name=[path][name].[ext]&context=.' },
+      { test: /\.svg$/,             loader: 'file-loader?name=[path][name].[ext]&context=.' },
+      { test: /\.woff$/,            loader: 'file-loader?name=[path][name].[ext]&context=.' },
       { test: /index\.html$/,       loader: 'file-loader?name=[path][name].[ext]&context=./src' }
     ]
   },
   resolve: {
     alias: {
       'famous-flex': 'famous-flex/src',
-      'famous-flex-datepicker': 'famous-flex-datepicker/src',
       'famous': 'famous/src'
     }
   },
-  plugins:[
+  plugins: [
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(require('./package.json').version),
       ENV: JSON.stringify(argv.env)

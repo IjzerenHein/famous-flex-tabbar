@@ -17,6 +17,7 @@ define(function(require) {
     require('famous-polyfills');
     require('famous/core/famous.css');
     require('famous-flex/widgets/styles.css');
+    require('../bower_components/ionicons/css/ionicons.min.css');
     require('./styles.css');
     require('./index.html');
     //</webpack>
@@ -40,21 +41,38 @@ define(function(require) {
     mainContext.add(scrollView);
 
     //
-    // Add examples
+    // Basic example
     //
-    _createTabBar('Regular', {
-        tabBarLayout: {
-            itemSize: undefined
-        },
+    var tabBar = new TabBar({
         classes: ['white']
     });
-    _createTabBar('itemSize: 80', {
+    tabBar.setItems([
+        'one',
+        'fourty',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, 'Regular');
+
+    //
+    // itemSize: 80
+    //
+    tabBar = new TabBar({
         tabBarLayout: {
             itemSize: 100
         },
         classes: ['white']
     });
-    _createTabBar('itemSize: true', {
+    tabBar.setItems([
+        'one',
+        'fourty',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, 'itemSize: 80');
+
+    //
+    // itemSize: true
+    //
+    tabBar = new TabBar({
         size: [true, undefined],
         tabBarLayout: {
             itemSize: true,
@@ -63,10 +81,17 @@ define(function(require) {
         },
         classes: ['black']
     });
-    _createTabBar('slow-motion', {
-        tabBarLayout: {
-            itemSize: undefined
-        },
+    tabBar.setItems([
+        'one',
+        'fourty',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, 'itemSize: true');
+
+    //
+    // slow motion
+    //
+    tabBar = new TabBar({
         layoutController: {
             nodeSpring: {
                 dampingRatio: 0.8,
@@ -75,13 +100,17 @@ define(function(require) {
         },
         classes: ['black']
     });
-    _createTabBar('bouncy', {
-        size: [true, undefined],
-        tabBarLayout: {
-            itemSize: true,
-            margins: [0, 20],
-            spacing: 20
-        },
+    tabBar.setItems([
+        'one',
+        'fourty',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, 'sloooow motion');
+
+    //
+    // bouncy
+    //
+    tabBar = new TabBar({
         layoutController: {
             nodeSpring: {
                 dampingRatio: 0.4,
@@ -90,6 +119,55 @@ define(function(require) {
         },
         classes: ['blue']
     });
+    tabBar.setItems([
+        'one',
+        'fourty',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, 'bouncy');
+
+    //
+    // solid
+    //
+    tabBar = new TabBar({
+        classes: ['orange']
+    });
+    tabBar.setItems([
+        'one',
+        'fourty',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, 'solid');
+
+    //
+    // images
+    //
+    tabBar = new TabBar({
+        classes: ['orange']
+    });
+    tabBar.setItems([
+        '<div class="icon ion-flag"></div>',
+        '<div class="icon ion-map"></div>',
+        '<div class="icon ion-gear-a"></div>',
+        '<div class="icon ion-star"></div>',
+        '<div class="icon ion-refresh"></div>'
+    ]);
+    _addTabBar(tabBar, 'image');
+
+    //
+    // images + text
+    //
+    tabBar = new TabBar({
+        classes: ['images', 'small', 'orange']
+    });
+    tabBar.setItems([
+        '<div class="icon ion-flag"></div>Flag',
+        '<div class="icon ion-map"></div>Map',
+        '<div class="icon ion-gear-a"></div>Settings',
+        '<div class="icon ion-star"></div>Favorites',
+        '<div class="icon ion-refresh"></div>Refresh'
+    ]);
+    _addTabBar(tabBar, 'image + text', 110);
 
     //
     // Main scrollview
@@ -97,22 +175,22 @@ define(function(require) {
     function _createScrollView() {
         return new FlexScrollView({
             mouseMove: true,
-            autoPipeEvents: true,
+            useContainer: true,
+            container: {},
+            layoutAll: true,
             layoutOptions: {
                 margins: [10, 20],
-                itemSize: 100
+                itemSize: true
             }
         });
     }
 
-    function _createTabBar(title, options) {
-        var tabBar = new TabBar(options);
-        tabBar.setItems([
-            'one',
-            'fourty',
-            'lorum ipsum'
-        ]);
+    //
+    // Adds a tab-bar to the scrollview
+    //
+    function _addTabBar(tabBar2, title, height) {
         scrollView.push(new LayoutController({
+            size: [undefined, height || 100],
             layout: {dock: [
                 ['top', 'header', 30],
                 ['bottom', 'footer', 20],
@@ -126,10 +204,10 @@ define(function(require) {
                 footer: new Surface({
                     classes: ['footer']
                 }),
-                content: tabBar
+                content: tabBar2
             }
         }));
-        tabBar.on('tabchange', function(event) {
+        tabBar2.on('tabchange', function(event) {
             console.log('tabchange: ' + event.index + ' (oldIndex: ' + event.oldIndex + ')');
         });
     }
