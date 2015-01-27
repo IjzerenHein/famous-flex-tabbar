@@ -1,5 +1,5 @@
 body, div {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Roboto", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
     /* prevent text selection */
     -moz-user-select: -moz-none;
@@ -26,17 +26,41 @@ body, div {
   -border-bottom: 1px solid #DDDDDD;
 }
 
-.tabbar-background {
+
+/* tabbar white */
+.ff-tabbar.background.white {
   background-color: white;
 }
-
-.tabbar-item {
-  text-align: center;
-  line-height: 50px;
-  white-space: nowrap;
+.ff-tabbar.item.white {
   color: black;
 }
-
-.tabbar-selected-item {
+.ff-tabbar.selectedItemOverlay.white {
   border-bottom: 4px solid #1185c3;
+}
+
+
+/* tabbar black */
+.ff-tabbar.background.black {
+  background-color: #101010;
+}
+.ff-tabbar.item.black {
+  color: #f7f3f7;
+}
+.ff-tabbar.selectedItemOverlay.black {
+  border-bottom: 6px solid #30b6e7;
+}
+
+
+/* tabbar blue */
+.ff-tabbar.background.blue {
+  background-color: #f5f5f5;
+}
+.ff-tabbar.item.blue {
+  color: #818181;
+}
+.ff-tabbar.item.blue.selected {
+  color: #1185c3; 
+}
+.ff-tabbar.selectedItemOverlay.blue {
+  border-bottom: 6px solid #1185c3;
 }

@@ -16,6 +16,7 @@ define(function(require) {
     //<webpack>
     require('famous-polyfills');
     require('famous/core/famous.css');
+    require('famous-flex/widgets/styles.css');
     require('./styles.css');
     require('./index.html');
     //</webpack>
@@ -45,13 +46,13 @@ define(function(require) {
         tabBarLayout: {
             itemSize: undefined
         },
-        classes: ['tabbar-white']
+        classes: ['white']
     });
     _createTabBar('itemSize: 80', {
         tabBarLayout: {
             itemSize: 100
         },
-        classes: ['tabbar-white']
+        classes: ['white']
     });
     _createTabBar('itemSize: true', {
         size: [true, undefined],
@@ -60,7 +61,7 @@ define(function(require) {
             margins: [0, 10],
             spacing: 10
         },
-        classes: ['tabbar-black']
+        classes: ['black']
     });
     _createTabBar('slow-motion', {
         tabBarLayout: {
@@ -72,7 +73,7 @@ define(function(require) {
                 period: 1000
             }
         },
-        classes: ['tabbar-black']
+        classes: ['black']
     });
     _createTabBar('bouncy', {
         size: [true, undefined],
@@ -87,7 +88,7 @@ define(function(require) {
                 period: 400
             }
         },
-        classes: ['tabbar-blue']
+        classes: ['blue']
     });
 
     //
@@ -104,31 +105,13 @@ define(function(require) {
         });
     }
 
-    function _createTabItem(text, itemSize) {
-        return new Surface({
-            classes: ['tabbar-item'],
-            size: (itemSize === true) ? [true, undefined] : undefined,
-            content: text
-        });
-    }
-
     function _createTabBar(title, options) {
         var tabBar = new TabBar(options);
         tabBar.setItems([
-            _createTabItem('one', options.tabBarLayout.itemSize),
-            _createTabItem('fourty', options.tabBarLayout.itemSize),
-            _createTabItem('lorum ipsum', options.tabBarLayout.itemSize)
+            'one',
+            'fourty',
+            'lorum ipsum'
         ]);
-        tabBar.setBackground(
-            new Surface({
-                classes: ['tabbar-background']
-            })
-        );
-        tabBar.setSelectedItemOverlay(
-            new Surface({
-                classes: ['tabbar-selected-item']
-            })
-        );
         scrollView.push(new LayoutController({
             layout: {dock: [
                 ['top', 'header', 30],
@@ -146,5 +129,8 @@ define(function(require) {
                 content: tabBar
             }
         }));
+        tabBar.on('tabchange', function(event) {
+            console.log('tabchange: ' + event.index + ' (oldIndex: ' + event.oldIndex + ')');
+        });
     }
 });
