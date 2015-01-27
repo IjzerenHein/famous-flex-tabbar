@@ -1,6 +1,8 @@
 famous-flex-tabbar
 ==========
 
+# Work in progress, check back later
+
 TabBar widget demo for famo.us using the [famous-flex](https://github.com/IjzerenHein/famous-flex) TabBar.
 
 ![Screenshot](screenshot.gif)
@@ -12,14 +14,6 @@ TabBar widget demo for famo.us using the [famous-flex](https://github.com/Ijzere
 ## Tutorial
 
 -	[TabBar Tutorial](./tutorial/TabBar.md)
-
-
-## Examples
-
--	[Date example](./src/date/DateExample.js) [(CSS)](./src/date/styles.css)
--	[Date + Time example](./src/datetime/DateTimeExample.js) [(CSS)](./src/datetime/styles.css)
--	[Time example](./src/time/TimeExample.js) [(CSS)](./src/time/styles.css)
--	[Clock example](./src/clock/ClockExample.js) [(CSS)](./src/clock/styles.css)
 
 
 ## Build
