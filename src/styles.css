@@ -40,7 +40,7 @@ body, div {
   background-color: #ECECEC;
 }
 .ff-tabbar.item.white {
-  color: black;
+  color: #333333;
 }
 .ff-tabbar.selectedItemOverlay.white {
   border-bottom: 4px solid #1185c3;

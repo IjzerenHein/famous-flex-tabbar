@@ -29,6 +29,10 @@ define(function(require) {
     // import dependencies
     var Engine = require('famous/core/Engine');
     var Surface = require('famous/core/Surface');
+    var Transform = require('famous/core/Transform');
+    var Easing = require('famous/transitions/Easing');
+    var StateModifier = require('famous/modifiers/StateModifier');
+    var RenderNode = require('famous/core/RenderNode');
     var LayoutController = require('famous-flex/LayoutController');
     var FlexScrollView = require('famous-flex/FlexScrollView');
     var TabBar = require('famous-flex/widgets/TabBar');
@@ -36,26 +40,39 @@ define(function(require) {
     // create the main context
     var mainContext = Engine.createContext();
 
-    // create main layout
-    var scrollView = _createScrollView();
+    // create main scrollview
+    var scrollView = new FlexScrollView({
+        mouseMove: true,
+        useContainer: true,
+        container: {},
+        layoutAll: true,
+        layoutOptions: {
+            margins: [10, 20],
+            itemSize: true
+        }
+    });
     mainContext.add(scrollView);
 
+    ///////////////////////////////////////////////////////////////////
     //
     // Basic example
     //
+    ///////////////////////////////////////////////////////////////////
     var tabBar = new TabBar({
         classes: ['white']
     });
     tabBar.setItems([
         'one',
-        'fourty',
+        'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, 'Regular');
+    _addTabBar(tabBar, 'itemSize: undefined');
 
+    ///////////////////////////////////////////////////////////////////
     //
     // itemSize: 80
     //
+    ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         tabBarLayout: {
             itemSize: 100
@@ -64,14 +81,16 @@ define(function(require) {
     });
     tabBar.setItems([
         'one',
-        'fourty',
+        'two',
         'lorum ipsum'
     ]);
     _addTabBar(tabBar, 'itemSize: 80');
 
+    ///////////////////////////////////////////////////////////////////
     //
     // itemSize: true
     //
+    ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         size: [true, undefined],
         tabBarLayout: {
@@ -83,14 +102,16 @@ define(function(require) {
     });
     tabBar.setItems([
         'one',
-        'fourty',
+        'two',
         'lorum ipsum'
     ]);
     _addTabBar(tabBar, 'itemSize: true');
 
+    ///////////////////////////////////////////////////////////////////
     //
     // slow motion
     //
+    ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         layoutController: {
             nodeSpring: {
@@ -102,14 +123,16 @@ define(function(require) {
     });
     tabBar.setItems([
         'one',
-        'fourty',
+        'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, 'sloooow motion');
+    _addTabBar(tabBar, '<b>sloooow motion</b>, nodeSpring: {dampingRatio: 0.8, period: 1000}');
 
+    ///////////////////////////////////////////////////////////////////
     //
     // bouncy
     //
+    ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         layoutController: {
             nodeSpring: {
@@ -121,27 +144,16 @@ define(function(require) {
     });
     tabBar.setItems([
         'one',
-        'fourty',
+        'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, 'bouncy');
+    _addTabBar(tabBar, '<b>bouncy</b>, nodeSpring: {dampingRatio: 0.4, period: 400}');
 
-    //
-    // solid
-    //
-    tabBar = new TabBar({
-        classes: ['orange']
-    });
-    tabBar.setItems([
-        'one',
-        'fourty',
-        'lorum ipsum'
-    ]);
-    _addTabBar(tabBar, 'solid');
-
+    ///////////////////////////////////////////////////////////////////
     //
     // images
     //
+    ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         classes: ['orange']
     });
@@ -154,9 +166,11 @@ define(function(require) {
     ]);
     _addTabBar(tabBar, 'image');
 
+    ///////////////////////////////////////////////////////////////////
     //
     // images + text
     //
+    ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         classes: ['images', 'small', 'orange']
     });
@@ -169,21 +183,107 @@ define(function(require) {
     ]);
     _addTabBar(tabBar, 'image + text', 110);
 
+    ///////////////////////////////////////////////////////////////////
     //
-    // Main scrollview
+    // custom renderables
     //
-    function _createScrollView() {
-        return new FlexScrollView({
-            mouseMove: true,
-            useContainer: true,
-            container: {},
-            layoutAll: true,
-            layoutOptions: {
-                margins: [10, 20],
-                itemSize: true
-            }
-        });
+    ///////////////////////////////////////////////////////////////////
+    function _createCustomRenderable(id, data) {
+        if (id === 'item') {
+            return new Surface({
+                classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small'],
+                content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>',
+                properties: {
+                    color: 'white'
+                }
+            });
+        }
+        else if (id === 'background') {
+            return new Surface({
+                properties: {
+                    backgroundImage: 'url(' + require('./images/back.png') + ')'
+                }
+            });
+        }
+        else if (id === 'selectedItemOverlay') {
+            return new Surface({
+                properties: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.3)'
+                }
+            });
+        }
+        else {
+            return TabBar.prototype.createRenderable.call(this, id, data);
+        }
     }
+    tabBar = new TabBar({
+        classes: ['images', 'small', 'white'],
+        createRenderable: _createCustomRenderable
+    });
+    tabBar.setItems([
+        {icon: 'flag', text: 'Flag'},
+        {icon: 'map', text: 'Map'},
+        {icon: 'gear-a', text: 'Settings'},
+        {icon: 'star', text: 'Favorites'},
+        {icon: 'refresh', text: 'Refresh'}
+    ]);
+    _addTabBar(tabBar, 'custom renderables (see the code)', 110);
+
+    ///////////////////////////////////////////////////////////////////
+    //
+    // bouncy custom renderables
+    //
+    ///////////////////////////////////////////////////////////////////
+    var bouncyCustomRenderables = [];
+    function _createBouncyCustomRenderable(id, data) {
+        if (id === 'item') {
+            var mod = new StateModifier();
+            var node = new RenderNode(mod);
+            var surface = new Surface({
+                classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small', 'orange'],
+                content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
+            });
+            if (bouncyCustomRenderables.length === 0) {
+                surface.addClass('selected');
+            }
+            // since the render-node that is added to the TabBar cannot handle events,
+            // install a handler which switches selection on the surface.
+            surface.on('click', this.setSelectedItemIndex.bind(this, bouncyCustomRenderables.length));
+            node.add(surface);
+            bouncyCustomRenderables.push({
+                mod: mod,
+                surface: surface,
+                node: node
+            });
+            return node;
+        }
+        else {
+            return TabBar.prototype.createRenderable.call(this, id, data);
+        }
+    }
+    tabBar = new TabBar({
+        classes: ['images', 'small', 'orange'],
+        createRenderable: _createBouncyCustomRenderable
+    });
+    tabBar.setItems([
+        {icon: 'flag', text: 'Flag'},
+        {icon: 'map', text: 'Map'},
+        {icon: 'gear-a"', text: 'Settings'},
+        {icon: 'star', text: 'Favorites'},
+        {icon: 'refresh', text: 'Refresh'}
+    ]);
+    tabBar.on('tabchange', function(event) {
+
+        // On tab-change, toggle the selection class on the old and new surface
+        bouncyCustomRenderables[event.oldIndex].surface.removeClass('selected');
+        bouncyCustomRenderables[event.index].surface.addClass('selected');
+
+        // Bounce up when an item is selected
+        bouncyCustomRenderables[event.index].mod.halt();
+        bouncyCustomRenderables[event.index].mod.setTransform(Transform.translate(0, 60, 0), {duration: 0});
+        bouncyCustomRenderables[event.index].mod.setTransform(Transform.rotate(0, 0, 0), {duration: 140, curve: Easing.outBack});
+    });
+    _addTabBar(tabBar, 'bouncy custom renderables', 110);
 
     //
     // Adds a tab-bar to the scrollview

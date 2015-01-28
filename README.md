@@ -26,10 +26,11 @@ npm install -g webpack
 npm install -g webpack-dev-server
 ```
 
-Run npm to install all dev-dependencies:
+Run npm and bower to install all dev-dependencies:
 
 ```
 npm install
+bower install
 ```
 
 To build the output (dist-folder), run the webpack command:
