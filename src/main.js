@@ -66,7 +66,7 @@ define(function(require) {
         'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, 'itemSize: undefined');
+    _addTabBar(tabBar, '<b>Equal width</b> (itemSize: undefined)');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -84,7 +84,7 @@ define(function(require) {
         'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, 'itemSize: 80');
+    _addTabBar(tabBar, '<b>Fixed width</b> (itemSize: 80)');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -92,7 +92,6 @@ define(function(require) {
     //
     ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
-        size: [true, undefined],
         tabBarLayout: {
             itemSize: true,
             margins: [0, 10],
@@ -105,7 +104,30 @@ define(function(require) {
         'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, 'itemSize: true');
+    _addTabBar(tabBar, '<b>True-size width</b> (itemSize: true)');
+
+    ///////////////////////////////////////////////////////////////////
+    //
+    // itemSize: true, size: [true, undefined]
+    //
+    ///////////////////////////////////////////////////////////////////
+    tabBar = new TabBar({
+        layoutController: {
+            size: [true, undefined]
+        },
+        tabBarLayout: {
+            itemSize: true,
+            margins: [0, 10],
+            spacing: 10
+        },
+        classes: ['black']
+    });
+    tabBar.setItems([
+        'one',
+        'two',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, '<b>Calculate width based on items</b> (size: [true, undefined], itemSize: true)');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -126,7 +148,7 @@ define(function(require) {
         'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, '<b>sloooow motion</b>, nodeSpring: {dampingRatio: 0.8, period: 1000}');
+    _addTabBar(tabBar, '<b>Sloooow motion</b>, nodeSpring: {dampingRatio: 0.8, period: 1000}');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -147,7 +169,7 @@ define(function(require) {
         'two',
         'lorum ipsum'
     ]);
-    _addTabBar(tabBar, '<b>bouncy</b>, nodeSpring: {dampingRatio: 0.4, period: 400}');
+    _addTabBar(tabBar, '<b>Bouncy</b>, nodeSpring: {dampingRatio: 0.4, period: 400}');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -158,13 +180,13 @@ define(function(require) {
         classes: ['orange']
     });
     tabBar.setItems([
-        '<div class="icon ion-flag"></div>',
+        '<div class="icon ion-flag"></div> ',
         '<div class="icon ion-map"></div>',
         '<div class="icon ion-gear-a"></div>',
         '<div class="icon ion-star"></div>',
         '<div class="icon ion-refresh"></div>'
     ]);
-    _addTabBar(tabBar, 'image');
+    _addTabBar(tabBar, '<b>Images</b> (&lt;div class="icon ion-flag"&gt;&lt;/div&gt;)');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -181,7 +203,7 @@ define(function(require) {
         '<div class="icon ion-star"></div>Favorites',
         '<div class="icon ion-refresh"></div>Refresh'
     ]);
-    _addTabBar(tabBar, 'image + text', 110);
+    _addTabBar(tabBar, '<b>Image + Text</b> (&lt;div class="icon ion-flag"&gt;&lt;/div&gt;Flag)', 110);
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -227,7 +249,7 @@ define(function(require) {
         {icon: 'star', text: 'Favorites'},
         {icon: 'refresh', text: 'Refresh'}
     ]);
-    _addTabBar(tabBar, 'custom renderables (see the code)', 110);
+    _addTabBar(tabBar, '<b>Custom renderables</b> (see the code)', 110);
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -283,7 +305,7 @@ define(function(require) {
         bouncyCustomRenderables[event.index].mod.setTransform(Transform.translate(0, 60, 0), {duration: 0});
         bouncyCustomRenderables[event.index].mod.setTransform(Transform.rotate(0, 0, 0), {duration: 140, curve: Easing.outBack});
     });
-    _addTabBar(tabBar, 'bouncy custom renderables', 110);
+    _addTabBar(tabBar, '<b>Bouncy custom renderables</b> (also see the code)', 110);
 
     //
     // Adds a tab-bar to the scrollview
@@ -296,6 +318,7 @@ define(function(require) {
                 ['bottom', 'footer', 20],
                 ['left', 'content']
             ]},
+            alwaysLayout: true,
             dataSource: {
                 header: new Surface({
                     classes: ['header'],
