@@ -59,7 +59,11 @@ define(function(require) {
     //
     ///////////////////////////////////////////////////////////////////
     var tabBar = new TabBar({
-        classes: ['white']
+        classes: ['white'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        }
     });
     tabBar.setItems([
         'one',
@@ -77,7 +81,11 @@ define(function(require) {
         tabBarLayout: {
             itemSize: 100
         },
-        classes: ['white']
+        classes: ['white'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        }
     });
     tabBar.setItems([
         'one',
@@ -97,7 +105,11 @@ define(function(require) {
             margins: [0, 10],
             spacing: 10
         },
-        classes: ['black']
+        classes: ['black'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        }
     });
     tabBar.setItems([
         'one',
@@ -120,7 +132,11 @@ define(function(require) {
             margins: [0, 10],
             spacing: 10
         },
-        classes: ['black']
+        classes: ['black'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        }
     });
     tabBar.setItems([
         'one',
@@ -141,7 +157,11 @@ define(function(require) {
                 period: 1000
             }
         },
-        classes: ['black']
+        classes: ['black'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        }
     });
     tabBar.setItems([
         'one',
@@ -162,7 +182,11 @@ define(function(require) {
                 period: 400
             }
         },
-        classes: ['blue']
+        classes: ['blue'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        }
     });
     tabBar.setItems([
         'one',
@@ -177,7 +201,10 @@ define(function(require) {
     //
     ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
-        classes: ['orange']
+        classes: ['orange'],
+        renderables: {
+            background: true
+        }
     });
     tabBar.setItems([
         '<div class="icon ion-flag"></div> ',
@@ -194,7 +221,10 @@ define(function(require) {
     //
     ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
-        classes: ['images', 'small', 'orange']
+        classes: ['images', 'small', 'orange'],
+        renderables: {
+            background: true
+        }
     });
     tabBar.setItems([
         '<div class="icon ion-flag"></div>Flag',
@@ -204,6 +234,29 @@ define(function(require) {
         '<div class="icon ion-refresh"></div>Refresh'
     ]);
     _addTabBar(tabBar, '<b>Image + Text</b> (&lt;div class="icon ion-flag"&gt;&lt;/div&gt;Flag)', 110);
+
+    ///////////////////////////////////////////////////////////////////
+    //
+    // spacers
+    //
+    ///////////////////////////////////////////////////////////////////
+    tabBar = new TabBar({
+        classes: ['black'],
+        tabBarLayout: {
+            spacing: 1
+        },
+        renderables: {
+            background: true,
+            spacer: true,
+            selectedItemOverlay: true
+        }
+    });
+    tabBar.setItems([
+        'one',
+        'two',
+        'lorum ipsum'
+    ]);
+    _addTabBar(tabBar, '<b>Spacers</b>, renderables: {spacer: true}');
 
     ///////////////////////////////////////////////////////////////////
     //
@@ -234,12 +287,13 @@ define(function(require) {
                 }
             });
         }
-        else {
-            return TabBar.prototype.createRenderable.call(this, id, data);
-        }
     }
     tabBar = new TabBar({
         classes: ['images', 'small', 'white'],
+        renderables: {
+            background: true,
+            selectedItemOverlay: true
+        },
         createRenderable: _createCustomRenderable
     });
     tabBar.setItems([
@@ -279,12 +333,12 @@ define(function(require) {
             });
             return node;
         }
-        else {
-            return TabBar.prototype.createRenderable.call(this, id, data);
-        }
     }
     tabBar = new TabBar({
         classes: ['images', 'small', 'orange'],
+        renderables: {
+            background: true
+        },
         createRenderable: _createBouncyCustomRenderable
     });
     tabBar.setItems([
