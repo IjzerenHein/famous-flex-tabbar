@@ -11,7 +11,7 @@ TabBar widget for famo.us.
 # Index
 
 - [Getting started](#getting-started)
-- [API reference](https://rawgit.com/IjzerenHein/famous-flex/docs/widgets/TabBar.md)
+- [API reference](https://github.com/IjzerenHein/famous-flex/blob/master/docs/widgets/TabBar.md)
 - [Code examples](../src/main.js) ([CSS](../src/styles.css))
 - [Renderables & CSS classes](#renderables--css-classes)
     - [Overview of renderables and their CSS-selectors](#overview-of-renderables-and-their-css-selectors)
