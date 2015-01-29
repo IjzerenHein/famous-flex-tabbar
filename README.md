@@ -1,8 +1,6 @@
 famous-flex-tabbar
 ==========
 
-# Work in progress, check back later
-
 TabBar widget demo for famo.us using the [famous-flex](https://github.com/IjzerenHein/famous-flex) TabBar.
 
 ![Screenshot](screenshot.gif)
