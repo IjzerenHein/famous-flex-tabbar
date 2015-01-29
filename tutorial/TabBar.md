@@ -12,13 +12,18 @@ TabBar widget for famo.us.
 
 - [Getting started](#getting-started)
 - [API reference](https://rawgit.com/IjzerenHein/famous-flex/docs/widgets/TabBar.md)
+- [Code examples](../src/main.js) ([CSS](../src/styles.css))
+- [Renderables & CSS classes](#renderables--css-classes)
+    - [Overview of renderables and their CSS-selectors](#overview-of-renderables-and-their-css-selectors)
+    - [Example of a black Android like style](#example-of-a-black-android-like-style)
+- [Adding tab items](#adding-tab-items)
 - [Getting and setting the selected tab](#getting-and-setting-the-selected-tab)
 - [Handling tab-changes](#handling-tab-changes)
 - [Spacing & margins](#spacing--margins)
 - [Sizing Modes](#sizing-modes)
 - [Vertical orientation](#vertical-orientation)
 - [Custom renderables](#custom-renderables)
-
+    - [A bouncy example](#a-bouncy-example)
 
 # Getting started
 
@@ -33,7 +38,12 @@ To create the TabBar use:
 ```javascript
 var TabBar = require('famous-flex/widgets/TabBar');
 
-var tabBar = new TabBar();
+var tabBar = new TabBar({
+    renderables: {
+        background: true,
+        selectedItemOverlay: true
+    }
+});
 tabBar.setItems([
     'one',
     'two',
@@ -42,12 +52,105 @@ tabBar.setItems([
 this.add(tabBar); // add to the render-tree
 ```
 
-Include the widgets css in your project:
+Include the widgets css file in your project:
+
+Using webpack:
+
+```javascript
+require('famous-flex/widgets/styles.css');
+```
+
+Or in your html file:
 
 ```html
 <head>
-  <link rel="stylesheet" type="text/css" href="famous-flex/widgets/styles.css">
+  <link rel="stylesheet" type="text/css" href="famous-flex/src/widgets/styles.css">
 </head>
+```
+
+
+# Renderables & CSS-classes
+
+By default, the TabBar only creates renderables (Surfaces) for the actual tab-items.
+You can also choose to enable other renderables, such as the background, spacers in 
+between items and a selected item overlay. To enable these renderables, set their values
+in the `renderables` option to `true`.
+
+```javascript
+var tabBar = new TabBar({
+    renderables: [
+        background: true,
+        selectedItemOverlay: true
+        spacer: true
+    ]
+})
+```
+
+When a renderable is created (Surface), it is assigned multiple css-classes which can be
+styled from a css-file. The `widgets/styles.css` already contains various styles so that 
+text is centered correctly. Example of a white tab-bar style:
+
+```css
+.ff-tabbar.background {
+  background-color: #ECECEC;
+}
+.ff-tabbar.item {
+  color: #333333;
+}
+.ff-tabbar.selectedItemOverlay {
+  border-bottom: 4px solid #1185c3;
+}
+```
+
+
+## Overview of renderables and their CSS-selectors
+
+|Renderable|CSS-selector|Description|
+|---|---|---|
+|`background`|`.ff-tabbar.background`|Background renderable.|
+|`item`|`.ff-tabbar.item`|Tab-item.|
+|`spacer`|`.ff-tabbar.spacer`|Spacer renderable in between items.|
+|`selectedItemOverlay`|`.ff-tabbar.selectedItemOverlay`|Renderable that has the same size as the selected item and lays on top of it.|
+
+
+## Example of a black Android like style
+
+![Black android theme](./images/black.png)
+
+In order to create "themes", you can assign additional css-classes to the renderables by specifying
+the `classes` option in the constructor:
+
+```javascript
+var tabBar = new TabBar({
+    classes: ['black'],
+    renderables: [
+        background: true,
+        selectedItemOverlay: true
+        spacer: true
+    ]
+})
+```
+
+CSS:
+
+```css
+.ff-tabbar.background.black {
+  background-color: #101010;
+}
+.ff-tabbar.item.black {
+  color: #f7f3f7;
+}
+.ff-tabbar.selectedItemOverlay.black {
+  border-bottom: 6px solid #30b6e7;
+}
+.ff-tabbar.spacer.black:after {
+  content: "";
+  background-color: #333333;
+  width: 100%;
+  top: 10px;
+  bottom: 10px;
+  position: absolute;
+}
 ```
 
 
@@ -114,42 +217,6 @@ The following properties are passed along as event-data:
     oldIndex: Number        // index of the previously selected tab
     item: Renderable,       // tab-item renderable that was selected
     oldItem: Renderable     // previous tab-item renderable that was selected
-}
-```
-
-
-
-## CSS classes
-
-At the topmost level, the DatePicker consists of a ContainerSurface using
-the class `famous-flex-datepicker`. This class can be modified, by specifying
-the `container` option in the constructor:
-
-```javascript
-var datePicker = new DatePicker({
-    container: {
-        classes: ['famous-flex-datepicker'] // specify your custom class(es) here
-    }
-});
-```
-
-Each item in the DatePicker is assigned the class `item` and a class which
-corresponds to the component (e.g. `year`, `hour`, `weekday`, ...).
-To for instance set the line-height and font-size for all components, use:
-
-```css
-.famous-flex-datepicker .item {
-    text-align: center;
-    font-size: 40px;
-    line-height: 100px;
-}
-```
-
-To customize a specific component, use its css-class:
-
-```css
-.famous-flex-datepicker .year {
-    text-align: left;
 }
 ```
 
@@ -237,9 +304,8 @@ var tabBar = new TabBar({
 # Custom renderables
 
 By default the TabBar creates its own surfaces that make up the Tab-bar.
-You can override this behavior and use your own renderables, or disable certain
-surfaces such as the background. To do this, override the `createRenderable`
-function in the constructor options:
+To override this behavior and create/use your own renderables, specify the `createRenderable`
+option in the constructor and use your own creator function:
 
 ```javascript
 var tabBar = new TabBar({
@@ -251,10 +317,6 @@ var tabBar = new TabBar({
                 content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
             });
         }
-        else {
-            // create default surfaces for background and selectedItemOver
-            return TabBar.prototype.createRenderable.call(this, id, data);
-        }
     }
 });
 tabBar.setItems([
@@ -263,6 +325,8 @@ tabBar.setItems([
     {icon: 'gear-a', text: 'Settings'}
 ]);
 ```
+
+## A bouncy example
 
 Instead of adding Surfaces you can add any renderable to the TabBar.
 If the renderable supports event handling, then the tab-bar will automatically
@@ -294,9 +358,6 @@ function _createBouncyCustomRenderable(id, data) {
             node: node
         });
         return node;
-    }
-    else {
-        return TabBar.prototype.createRenderable.call(this, id, data);
     }
 }
 tabBar = new TabBar({
