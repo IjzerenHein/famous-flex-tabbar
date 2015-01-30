@@ -1,4 +1,4 @@
-TabBar
+TabBar Tutorial
 ==========
 
 TabBar widget for famo.us.
@@ -72,7 +72,7 @@ Or in your html file:
 # Renderables & CSS-classes
 
 By default, the TabBar only creates renderables (Surfaces) for the actual tab-items.
-You can also choose to enable other renderables, such as the background, spacers in 
+You can choose to enable other renderables, such as the background, spacers in 
 between items and a selected item overlay. To enable these renderables, set their values
 in the `renderables` option to `true`.
 
@@ -86,9 +86,8 @@ var tabBar = new TabBar({
 })
 ```
 
-When a renderable is created (Surface), it is assigned multiple css-classes which can be
-styled from a css-file. The `widgets/styles.css` already contains various styles so that 
-text is centered correctly. Example of a white tab-bar style:
+When a Surface is created, it is assigned multiple css-classes which can be
+styled from a css-file. The `widgets/styles.css` already contains various styles so that text is centered correctly. Example of a white tab-bar style:
 
 ```css
 .ff-tabbar.background {
@@ -270,7 +269,7 @@ var tabBar = new TabBar({
 ![Width-true](./images/width-true.png)
 
 It is also possible, to let the TabBar calculate its own size based on the added tab-items.
-To do this, set the size of the underlying LayoutController to `[true, undefined`:
+To do this, set the size of the underlying LayoutController to `[true, undefined]`:
 
 ```javascript
 var tabBar = new TabBar({
