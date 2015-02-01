@@ -324,31 +324,6 @@ var tabBar = new TabBar({
 ```
 
 
-# Custom renderables
-
-By default the TabBar creates its own surfaces that make up the Tab-bar.
-To override this behavior and create/use your own renderables, specify the `createRenderable`
-option in the constructor and use your own creator function:
-
-```javascript
-var tabBar = new TabBar({
-    createRenderable: function (id, data) {
-        if (id === 'item') {
-            // create our own surface per item
-            return new Surface({
-                classes: ['mytabbar-item'],
-                content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
-            });
-        }
-    }
-});
-tabBar.setItems([
-    {icon: 'flag', text: 'Flag'},
-    {icon: 'map', text: 'Map'},
-    {icon: 'gear-a', text: 'Settings'}
-]);
-```
-
 # A bouncy example
 
 Instead of adding Surfaces you can add any renderable to the TabBar.
