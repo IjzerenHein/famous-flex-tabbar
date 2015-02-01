@@ -60,7 +60,7 @@ define(function(require) {
     ///////////////////////////////////////////////////////////////////
     var tabBar = new TabBar({
         classes: ['white'],
-        renderables: {
+        createRenderables: {
             background: true,
             selectedItemOverlay: true
         }
@@ -82,7 +82,7 @@ define(function(require) {
             itemSize: 100
         },
         classes: ['white'],
-        renderables: {
+        createRenderables: {
             background: true,
             selectedItemOverlay: true
         }
@@ -106,7 +106,7 @@ define(function(require) {
             spacing: 10
         },
         classes: ['black'],
-        renderables: {
+        createRenderables: {
             background: true,
             selectedItemOverlay: true
         }
@@ -133,7 +133,7 @@ define(function(require) {
             spacing: 10
         },
         classes: ['black'],
-        renderables: {
+        createRenderables: {
             background: true,
             selectedItemOverlay: true
         }
@@ -158,7 +158,7 @@ define(function(require) {
             }
         },
         classes: ['black'],
-        renderables: {
+        createRenderables: {
             background: true,
             selectedItemOverlay: true
         }
@@ -183,7 +183,7 @@ define(function(require) {
             }
         },
         classes: ['blue'],
-        renderables: {
+        createRenderables: {
             background: true,
             selectedItemOverlay: true
         }
@@ -202,7 +202,7 @@ define(function(require) {
     ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         classes: ['orange'],
-        renderables: {
+        createRenderables: {
             background: true
         }
     });
@@ -222,7 +222,7 @@ define(function(require) {
     ///////////////////////////////////////////////////////////////////
     tabBar = new TabBar({
         classes: ['images', 'small', 'orange'],
-        renderables: {
+        createRenderables: {
             background: true
         }
     });
@@ -245,7 +245,7 @@ define(function(require) {
         tabBarLayout: {
             spacing: 1
         },
-        renderables: {
+        createRenderables: {
             background: true,
             spacer: true,
             selectedItemOverlay: true
@@ -263,38 +263,33 @@ define(function(require) {
     // custom renderables
     //
     ///////////////////////////////////////////////////////////////////
-    function _createCustomRenderable(id, data) {
-        if (id === 'item') {
-            return new Surface({
-                classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small'],
-                content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>',
-                properties: {
-                    color: 'white'
-                }
-            });
-        }
-        else if (id === 'background') {
-            return new Surface({
-                properties: {
-                    backgroundImage: 'url(' + require('./images/back.png') + ')'
-                }
-            });
-        }
-        else if (id === 'selectedItemOverlay') {
-            return new Surface({
-                properties: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.3)'
-                }
-            });
-        }
-    }
     tabBar = new TabBar({
         classes: ['images', 'small', 'white'],
-        renderables: {
-            background: true,
-            selectedItemOverlay: true
-        },
-        createRenderable: _createCustomRenderable
+        createRenderables: {
+            background: function() {
+                return new Surface({
+                    properties: {
+                        backgroundImage: 'url(' + require('./images/back.png') + ')'
+                    }
+                });
+            },
+            selectedItemOverlay: function() {
+                return new Surface({
+                    properties: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.3)'
+                    }
+                });
+            },
+            item: function(id, data) {
+                return new Surface({
+                    classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small'],
+                    content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>',
+                    properties: {
+                        color: 'white'
+                    }
+                });
+            }
+        }
     });
     tabBar.setItems([
         {icon: 'flag', text: 'Flag'},
@@ -312,34 +307,32 @@ define(function(require) {
     ///////////////////////////////////////////////////////////////////
     var bouncyCustomRenderables = [];
     function _createBouncyCustomRenderable(id, data) {
-        if (id === 'item') {
-            var mod = new StateModifier();
-            var node = new RenderNode(mod);
-            var surface = new Surface({
-                classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small', 'orange'],
-                content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
-            });
-            if (bouncyCustomRenderables.length === 0) {
-                surface.addClass('selected');
-            }
-            // since the render-node that is added to the TabBar cannot handle events,
-            // install a handler which switches selection on the surface.
-            surface.on('click', this.setSelectedItemIndex.bind(this, bouncyCustomRenderables.length));
-            node.add(surface);
-            bouncyCustomRenderables.push({
-                mod: mod,
-                surface: surface,
-                node: node
-            });
-            return node;
+        var mod = new StateModifier();
+        var node = new RenderNode(mod);
+        var surface = new Surface({
+            classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small', 'orange'],
+            content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
+        });
+        if (bouncyCustomRenderables.length === 0) {
+            surface.addClass('selected');
         }
+        // since the render-node that is added to the TabBar cannot handle events,
+        // install a handler which switches selection on the surface.
+        surface.on('click', this.setSelectedItemIndex.bind(this, bouncyCustomRenderables.length));
+        node.add(surface);
+        bouncyCustomRenderables.push({
+            mod: mod,
+            surface: surface,
+            node: node
+        });
+        return node;
     }
     tabBar = new TabBar({
         classes: ['images', 'small', 'orange'],
-        renderables: {
-            background: true
-        },
-        createRenderable: _createBouncyCustomRenderable
+        createRenderables: {
+            background: true,
+            item: _createBouncyCustomRenderable
+        }
     });
     tabBar.setItems([
         {icon: 'flag', text: 'Flag'},

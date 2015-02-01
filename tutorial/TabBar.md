@@ -14,6 +14,8 @@ TabBar widget for famo.us.
 - [API reference](https://github.com/IjzerenHein/famous-flex/blob/master/docs/widgets/TabBar.md)
 - [Code examples](../src/main.js) ([CSS](../src/styles.css))
 - [Renderables & CSS classes](#renderables--css-classes)
+    - [Custom renderables](#custom-renderables)
+    - [CSS classes](#css-classes)
     - [Overview of renderables and their CSS-selectors](#overview-of-renderables-and-their-css-selectors)
     - [Example of a black Android like style](#example-of-a-black-android-like-style)
 - [Adding tab items](#adding-tab-items)
@@ -22,8 +24,7 @@ TabBar widget for famo.us.
 - [Spacing & margins](#spacing--margins)
 - [Sizing Modes](#sizing-modes)
 - [Vertical orientation](#vertical-orientation)
-- [Custom renderables](#custom-renderables)
-    - [A bouncy example](#a-bouncy-example)
+- [A bouncy example](#a-bouncy-example)
 
 # Getting started
 
@@ -74,17 +75,40 @@ Or in your html file:
 By default, the TabBar only creates renderables (Surfaces) for the actual tab-items.
 You can choose to enable other renderables, such as the background, spacers in 
 between items and a selected item overlay. To enable these renderables, set their values
-in the `renderables` option to `true`.
+in the `createRenderables` option to `true`.
 
 ```javascript
 var tabBar = new TabBar({
-    renderables: [
+    createRenderables: {
         background: true,
         selectedItemOverlay: true
         spacer: true
-    ]
+    }
 })
 ```
+
+## Custom renderables
+
+To create or use your own renderables, specify a factory `Function`
+instead of `true/false`:
+
+```javascript
+var tabBar = new TabBar({
+    createRenderables: {
+        item: function(id, data) {
+            return new Surface({
+                content: data,
+                properties: {
+                    background: 'rgba(255, 255, 255, 0.5)',
+                    color: '#222222'
+                }
+            })
+        }
+    }
+});
+```
+
+## CSS classes
 
 When a Surface is created, it is assigned multiple css-classes which can be
 styled from a css-file. The `widgets/styles.css` already contains various styles so that text is centered correctly. Example of a white tab-bar style:
@@ -325,7 +349,7 @@ tabBar.setItems([
 ]);
 ```
 
-## A bouncy example
+# A bouncy example
 
 Instead of adding Surfaces you can add any renderable to the TabBar.
 If the renderable supports event handling, then the tab-bar will automatically
