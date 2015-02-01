@@ -40,7 +40,7 @@ To create the TabBar use:
 var TabBar = require('famous-flex/widgets/TabBar');
 
 var tabBar = new TabBar({
-    renderables: {
+    createRenderables: {
         background: true,
         selectedItemOverlay: true
     }
@@ -146,11 +146,11 @@ the `classes` option in the constructor:
 ```javascript
 var tabBar = new TabBar({
     classes: ['black'],
-    renderables: [
+    createRenderables: {
         background: true,
         selectedItemOverlay: true
         spacer: true
-    ]
+    }
 })
 ```
 
@@ -361,31 +361,31 @@ The following example shows how to create a bounce effect using a custom rendera
 ```javascript
 var bouncyCustomRenderables = [];
 function _createBouncyCustomRenderable(id, data) {
-    if (id === 'item') {
-        var mod = new StateModifier();
-        var node = new RenderNode(mod);
-        var surface = new Surface({
-            classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small', 'orange'],
-            content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
-        });
-        if (bouncyCustomRenderables.length === 0) {
-            surface.addClass('selected');
-        }
-        // since the render-node that is added to the TabBar cannot handle events,
-        // install a handler which switches selection on the surface.
-        surface.on('click', this.setSelectedItemIndex.bind(this, bouncyCustomRenderables.length));
-        node.add(surface);
-        bouncyCustomRenderables.push({
-            mod: mod,
-            surface: surface,
-            node: node
-        });
-        return node;
+    var mod = new StateModifier();
+    var node = new RenderNode(mod);
+    var surface = new Surface({
+        classes: ['ff-widget', 'ff-tabbar', 'images', 'item', 'small', 'orange'],
+        content: '<div><div class="icon ion-' + data.icon + '"></div>' + data.text + '</div>'
+    });
+    if (bouncyCustomRenderables.length === 0) {
+        surface.addClass('selected');
     }
+    // since the render-node that is added to the TabBar cannot handle events,
+    // install a handler which switches selection on the surface.
+    surface.on('click', this.setSelectedItemIndex.bind(this, bouncyCustomRenderables.length));
+    node.add(surface);
+    bouncyCustomRenderables.push({
+        mod: mod,
+        surface: surface,
+        node: node
+    });
+    return node;
 }
 tabBar = new TabBar({
-    classes: ['images', 'small', 'orange'],
-    createRenderable: _createBouncyCustomRenderable
+    createRenderables: {
+        background: true,
+        item: _createBouncyCustomRenderable
+    }
 });
 tabBar.setItems([
     {icon: 'flag', text: 'Flag'},
@@ -407,5 +407,23 @@ tabBar.on('tabchange', function(event) {
 });
 ```
 
+CSS:
+
+```css
+.ff-tabbar.item {
+  font-size: 12px;
+  color: #818181;
+}
+.ff-tabbar.item .icon {
+  font-size: 24px;
+}
+.ff-tabbar.item.selected {
+  color: #f5f5f5;
+  background-color: #E14610;
+}
+.ff-tabbar.background {
+  background-color: #f5f5f5;
+}
+```
 
 *© 2015 IjzerenHein*
