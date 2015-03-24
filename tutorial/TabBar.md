@@ -81,7 +81,7 @@ in the `createRenderables` option to `true`.
 var tabBar = new TabBar({
     createRenderables: {
         background: true,
-        selectedItemOverlay: true
+        selectedItemOverlay: true,
         spacer: true
     }
 })
